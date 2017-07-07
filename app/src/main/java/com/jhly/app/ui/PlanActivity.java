@@ -19,17 +19,22 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jhly.app.BaseActivity;
 import com.jhly.app.api.CheckData;
+import com.jhly.app.api.JsonCallback;
 import com.jhly.app.api.Plan;
 import com.jhly.app.R;
 import com.jhly.app.api.RootUrl;
 import com.jhly.app.adapter.MyAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Progress;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import me.rawn_hwang.library.widgit.DefaultLoadingLayout;
@@ -50,7 +55,7 @@ public class PlanActivity extends BaseActivity {
     private Button submit;
     private MyAdapter adapter;
     private DefaultLoadingLayout layout;
-    private ArrayList<Plan> list = new ArrayList<>();
+    private ArrayList<Plan> list = new ArrayList();
     private Handler handler;
     private String cookie;
     private View view = null;
@@ -80,88 +85,20 @@ public class PlanActivity extends BaseActivity {
     @Override
     protected void initData() {
         //进行联网获取listview数据
-        Log.d("1","loading");
         SharedPreferences last_cookie = getSharedPreferences("cookie", 0);
         cookie = last_cookie.getString("cookie", null);
-        OkGo.<String>get(RootUrl.url+"availablePlan")
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(com.lzy.okgo.model.Response<String> response) {
-                        String json = response.body();
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<ArrayList<Plan>>() {
-                        }.getType();
-                        list = gson.fromJson(json, type);
-                        Message msg = new Message();
-                        msg.obj = list;
-                        handler.sendMessage(msg);
-                    }
+        Type type = new TypeToken<ArrayList<Plan>>() {
+        }.getType();
+        OkGo.<ArrayList<Plan>>get(RootUrl.url+"availablePlan")
+                .execute(new JsonCallback<ArrayList<Plan>>(type) {
+                             @Override
+                             public void onSuccess(com.lzy.okgo.model.Response<ArrayList<Plan>> response) {
+                                 list = response.body();
+                                 adapter = new MyAdapter(list,getApplicationContext());
+                                 time.setAdapter(adapter);
+                                 layout.onDone();
+                             }
                 });
-//        if(null != cookie) {
-//            Log.d("cookie", cookie);
-//            OkHttpClient mOkHttpClient = new OkHttpClient();
-//            //创建一个Request
-//            final Request request = new Request.Builder()
-//                    .get()
-//                    .url(RootUrl.url+"availablePlan")
-//                    .addHeader("cookie", cookie)
-//                    .build();
-//            //new call
-//            Call call = mOkHttpClient.newCall(request);
-//
-//            //请求加入调度
-//            call.enqueue(new Callback() {
-//                @Override
-//                public void onFailure(Call call, IOException e) {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            layout.onError();
-//                        }
-//                    });
-//
-//                }
-//
-//                @Override
-//                public void onResponse(Call call, Response response) throws IOException {
-//                    //此处判断获取数据成功与否
-//                    //Log.d("data",response.body().string());
-//                    String json = response.body().string();
-//                    Gson gson = new Gson();
-//                    Type type = new TypeToken<ArrayList<Plan>>() {
-//                    }.getType();
-//                    list = gson.fromJson(json, type);
-//                    Message msg = new Message();
-//                    msg.obj = list;
-//                    handler.sendMessage(msg);
-//                    response.close();
-//                }
-//            });
-//        }else{
-//            view.setVisibility(View.INVISIBLE);
-//            new AlertDialog.Builder(this).setTitle("提示").setMessage("请先进行扫码操作").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialogInterface, int i) {
-//                    view.setVisibility(View.VISIBLE);
-//                }
-//            }).show();
-//        }
-
-        handler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                //解析json数据
-                list = (ArrayList<Plan>) msg.obj;
-                Log.d("list",list.toString());
-                if(null == list){
-                adapter = new MyAdapter(list,getApplicationContext());
-                time.setAdapter(adapter);
-                layout.onDone();}else{
-                    new AlertDialog.Builder(PlanActivity.this).setTitle("提示").setMessage("未获取到合适的生产计划").setPositiveButton("确定",null).show();
-                }
-            }
-        };
-
     }
 
     @Override
@@ -210,6 +147,7 @@ public class PlanActivity extends BaseActivity {
         Gson gson = new Gson();
         String json = gson.toJson(map);
         Log.d("json",json);
+        Log.i("vehicle->",card.getText().toString());
 //        OkHttpClient client = new OkHttpClient();
 //        RequestBody requestBody = RequestBody.create(JSON, json);
         OkGo.<String>post(RootUrl.url+"submit/"+id+"?vehicle="+card.getText().toString())
