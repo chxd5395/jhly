@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="以下是您请求的提单信息:"
+        android:padding="5dp"
+        android:textSize="20sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="蛋白种类:"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/tv_variety"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_height="20dp"
+            android:textSize="16sp" />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="车牌号:"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_license"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_height="20dp"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="重量:"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_height="20dp"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="目的公司:"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_company"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_height="20dp"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+        <Button
+            android:id="@+id/bt_wrong"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="有误"
+            android:background="#ffffff"/>
+
+        <Button
+            android:id="@+id/bt_right"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="无误"
+            android:background="#ffffff"/>
+
+
+</LinearLayout>
+</LinearLayout>
