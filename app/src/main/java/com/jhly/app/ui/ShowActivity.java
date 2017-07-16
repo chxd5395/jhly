@@ -1,5 +1,6 @@
 package com.jhly.app.ui;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -10,10 +11,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jhly.app.BaseActivity;
 import com.jhly.app.R;
+import com.jhly.app.api.DialogCallback;
 import com.jhly.app.api.Result;
 import com.jhly.app.api.RootUrl;
 import com.jhly.app.adapter.MyRecycleViewAdapter;
@@ -27,10 +30,8 @@ import com.lzy.okgo.request.base.Request;
 import okhttp3.Response;
 
 public class ShowActivity extends BaseActivity implements View.OnClickListener {
-    private String revoke_url = "http://192.168.1.168/subscribe/revoke";
     private Button show;
     private Button revoke;
-    //private String cookie;
     private RecyclerView recyclerView;
     private MyRecycleViewAdapter adapter;
     private Handler handler = new Handler(){
@@ -103,49 +104,15 @@ public class ShowActivity extends BaseActivity implements View.OnClickListener {
                     });
                 break;
             case R.id.bt_revoke:
-                OkGo.<Dialog>delete(RootUrl.url+"revoke")
-                        .execute(new Callback<Dialog>() {
+                OkGo.<Activity>delete(RootUrl.url+"revoke")
+                        .execute(new DialogCallback(ShowActivity.this) {
                             @Override
-                            public void onStart(Request<Dialog, ? extends Request> request) {
-
-                            }
-
-                            @Override
-                            public void onSuccess(com.lzy.okgo.model.Response<Dialog> response) {
-
-                            }
-
-                            @Override
-                            public void onCacheSuccess(com.lzy.okgo.model.Response<Dialog> response) {
-
-                            }
-
-                            @Override
-                            public void onError(com.lzy.okgo.model.Response<Dialog> response) {
-
-                            }
-
-                            @Override
-                            public void onFinish() {
-
-                            }
-
-                            @Override
-                            public void uploadProgress(Progress progress) {
-
-                            }
-
-                            @Override
-                            public void downloadProgress(Progress progress) {
-
-                            }
-
-                            @Override
-                            public Dialog convertResponse(Response response) throws Throwable {
-                                return null;
+                            public void onSuccess(com.lzy.okgo.model.Response response) {
+                                if(204 == response.code()){
+                                    Toast.makeText(ShowActivity.this,"撤销成功",Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
-
                 break;
             default:
                 break;

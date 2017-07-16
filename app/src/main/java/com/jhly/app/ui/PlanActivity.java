@@ -74,12 +74,12 @@ public class PlanActivity extends BaseActivity {
         submit = findview(R.id.bt_submit);
         getToolbarTitle().setText("计划");
         getSubTitle().setText("更多");
-        layout = SmartLoadingLayout.createDefaultLayout(this,time);
+        layout = SmartLoadingLayout.createDefaultLayout(this, time);
         layout.onLoading();
         SharedPreferences info = getSharedPreferences("info", 0);
-        name.setText(info.getString("name",null));
-        number.setText(info.getString("num",null));
-        card.setText(info.getString("card",null));
+        name.setText(info.getString("name", null));
+        number.setText(info.getString("num", null));
+        card.setText(info.getString("card", null));
     }
 
     @Override
@@ -89,15 +89,15 @@ public class PlanActivity extends BaseActivity {
         cookie = last_cookie.getString("cookie", null);
         Type type = new TypeToken<ArrayList<Plan>>() {
         }.getType();
-        OkGo.<ArrayList<Plan>>get(RootUrl.url+"availablePlan")
+        OkGo.<ArrayList<Plan>>get(RootUrl.url + "availablePlan")
                 .execute(new JsonCallback<ArrayList<Plan>>(type) {
-                             @Override
-                             public void onSuccess(com.lzy.okgo.model.Response<ArrayList<Plan>> response) {
-                                 list = response.body();
-                                 adapter = new MyAdapter(list,getApplicationContext());
-                                 time.setAdapter(adapter);
-                                 layout.onDone();
-                             }
+                    @Override
+                    public void onSuccess(com.lzy.okgo.model.Response<ArrayList<Plan>> response) {
+                        list = response.body();
+                        adapter = new MyAdapter(list, getApplicationContext());
+                        time.setAdapter(adapter);
+                        layout.onDone();
+                    }
                 });
     }
 
@@ -109,48 +109,50 @@ public class PlanActivity extends BaseActivity {
                 //onSelected = i+1;
                 int id = list.get(i).getId();
                 SharedPreferences choose_id = getSharedPreferences("choose_id", MODE_PRIVATE);
-                choose_id.edit().putInt("id",id).commit();
+                choose_id.edit().putInt("id", id).commit();
             }
         });
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = getSharedPreferences("info",MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences("info", MODE_PRIVATE);
                 SharedPreferences.Editor edit = sharedPreferences.edit();
-                edit.putString("name",name.getText().toString());
-                edit.putString("num",number.getText().toString());
-                edit.putString("card",card.getText().toString());
+                edit.putString("name", name.getText().toString());
+                edit.putString("num", number.getText().toString());
+                edit.putString("card", card.getText().toString());
                 //进行正则匹配
-                if(CheckData.isName(name.getText().toString())&&CheckData.isPhone(number.getText().toString())&&CheckData.isVehicle(card.getText().toString())){
-                        edit.commit();
+                if (CheckData.isName(name.getText().toString()) && CheckData.isPhone(number.getText().toString()) && CheckData.isVehicle(card.getText().toString())) {
+                    edit.commit();
                     //进行数据提交
                     postData();
-                    }else{
-                    if(!CheckData.isName(name.getText().toString())){
+                } else {
+                    if (!CheckData.isName(name.getText().toString())) {
                         showToast("请输入正确的姓名");
-                    }if(!CheckData.isPhone(number.getText().toString()) ){
+                    }
+                    if (!CheckData.isPhone(number.getText().toString())) {
                         showToast("请输入正确的号码");
-                    }if(!CheckData.isVehicle(card.getText().toString())) {
+                    }
+                    if (!CheckData.isVehicle(card.getText().toString())) {
                         showToast("请输入正确的车牌");
                     }
                 }
-                }
+            }
         });
     }
 
-    public void postData(){
+    public void postData() {
         SharedPreferences choose_id = getSharedPreferences("choose_id", 0);
-        int id = choose_id.getInt("id",0);
-        Map<String,String> map = new HashMap<>();
-        map.put("name",name.getText().toString());
-        map.put("phone",number.getText().toString());
+        int id = choose_id.getInt("id", 0);
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name.getText().toString());
+        map.put("phone", number.getText().toString());
         Gson gson = new Gson();
         String json = gson.toJson(map);
-        Log.d("json",json);
-        Log.i("vehicle->",card.getText().toString());
+        Log.d("json", json);
+        Log.i("vehicle->", card.getText().toString());
 //        OkHttpClient client = new OkHttpClient();
 //        RequestBody requestBody = RequestBody.create(JSON, json);
-        OkGo.<String>post(RootUrl.url+"submit/"+id+"?vehicle="+card.getText().toString())
+        OkGo.<String>post(RootUrl.url + "submit/" + id + "?vehicle=" + card.getText().toString())
                 .upJson(json)
                 .execute(new StringCallback() {
                     @Override
@@ -161,15 +163,15 @@ public class PlanActivity extends BaseActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                switch (code){
+                                switch (code) {
                                     case 302:
-                                        new AlertDialog.Builder(PlanActivity.this).setTitle("提示").setMessage("已预约").setPositiveButton("确定",null).show();
+                                        new AlertDialog.Builder(PlanActivity.this).setTitle("提示").setMessage("已预约").setPositiveButton("确定", null).show();
                                         break;
                                     case 200:
-                                        new AlertDialog.Builder(PlanActivity.this).setTitle("提示").setMessage("预约成功").setPositiveButton("确定",null).show();
+                                        new AlertDialog.Builder(PlanActivity.this).setTitle("提示").setMessage("预约成功").setPositiveButton("确定", null).show();
                                         break;
                                     case 400:
-                                        new AlertDialog.Builder(PlanActivity.this).setTitle("提示").setMessage("预约失败").setPositiveButton("确定",null).show();
+                                        new AlertDialog.Builder(PlanActivity.this).setTitle("提示").setMessage("预约失败").setPositiveButton("确定", null).show();
                                         break;
                                     default:
                                         break;
@@ -219,10 +221,5 @@ public class PlanActivity extends BaseActivity {
 //
 //            }
 //        });
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return super.onKeyDown(keyCode,event);
     }
 }

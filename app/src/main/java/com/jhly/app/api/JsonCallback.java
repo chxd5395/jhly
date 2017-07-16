@@ -25,6 +25,9 @@ public abstract class JsonCallback<T> extends AbsCallback<T> {
         this.clazz = clazz;
     }
 
+    protected JsonCallback() {
+    }
+
     @Override
     public T convertResponse(Response response) throws Throwable {
         ResponseBody body = response.body();
