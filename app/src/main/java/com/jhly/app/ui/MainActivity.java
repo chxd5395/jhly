@@ -25,7 +25,14 @@ import com.jhly.app.BaseActivity;
 import com.jhly.app.R;
 import com.jhly.app.adapter.FirstPageRecycleViewAdapter;
 import com.jhly.app.api.MyDividerItemDecoration;
+import com.jhly.app.api.RootUrl;
 import com.jhly.app.boardcast.NetBroadCast;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.Callback;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Progress;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
@@ -41,9 +48,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected final static int CLICK_TIME = 500;//按钮连续点击最短时间间隔
     protected Stack<Activity> stack = new Stack<>();//activity栈
     private RecyclerView recyclerView;
-//    private Button scan;//扫码
-//    private Button mes;//个人信息
-//    private Button show;
     private Button yes;
     private EditText scan_code;
     private NetBroadCast broadcast = new NetBroadCast();
@@ -237,7 +241,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 showToast("再按一次退出程序");
                 exitTime = System.currentTimeMillis();
             }else{
-                finishAll();
+                OkGo.<String>delete(RootUrl.url+"exit")
+                        .execute(new StringCallback() {
+                                     @Override
+                                     public void onSuccess(Response<String> response) {
+
+                                     }
+                                 });
+                                finishAll();
             }
             return true;
         }

@@ -1,65 +1,86 @@
 package com.jhly.app.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jhly.app.api.Plan;
 import com.jhly.app.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by r on 2017/4/23.
  */
 
-public class MyAdapter extends BaseAdapter {
-    private List<Plan> list = new ArrayList<Plan>();
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+    private List<Plan> list;
     private Context context;
+    private int selectedPosition = -5;
+    private OnItemClickListener onItemClickListener;
+
+    public MyAdapter(){}
 
     public MyAdapter(List<Plan> list ,Context context){
         this.list = list;
         this.context = context;
     }
-    @Override
-    public int getCount() {
-        return list.size();
+
+    public void setOnItemClickListener(MyAdapter.OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     @Override
-    public Object getItem(int i) {
-        return list.get(i);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.plan_item, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        Viewholder holder = null;
-        if(view == null){
-            holder = new Viewholder();
-            view = LayoutInflater.from(context).inflate(R.layout.listview_item,null);
-            holder.data = (TextView) view.findViewById(R.id.tv_data);
-            holder.quantity = (TextView) view.findViewById(R.id.tv_quantity);
-            view.setTag(holder);
-        }else {
-            holder = (Viewholder) view.getTag();
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        if(null == list) return;
+        holder.itemView.setSelected(selectedPosition == position);
+        holder.data.setText("id:"+list.get(position).getId()+"\t工厂:"+list.get(position).getSrc()+"\t开始时间:"+list.get(position).getBeginTime()+"\t->结束时间:"+list.get(position).getEndTime()+"\n总重量:"+list.get(position).getTotal()+"\t已使用:"+list.get(position).getUsed());
+        if(selectedPosition == position){
+            holder.selected.setVisibility(View.VISIBLE);
+        }else{
+            holder.selected.setVisibility(View.INVISIBLE);
         }
-        holder.data.setText("id:"+list.get(i).getId()+"   "+"工厂:"+list.get(i).getSrc()+"   "+ "时间段:"+list.get(i).getBeginTime()+"--"+list.get(i).getEndTime());
-        holder.quantity.setText("total:"+list.get(i).getTotal()+"   "+"used:"+list.get(i).getUsed());
-        return view;
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onItemClickListener != null){
+                    int pos = holder.getLayoutPosition();
+                    onItemClickListener.onItemClick(holder.itemView,pos);
+                    selectedPosition = pos;
+                    notifyItemChanged(selectedPosition);
+                }
+            }
+        });
     }
 
-    private class Viewholder{
-        private TextView data;
-        private TextView quantity;
+    @Override
+    public int getItemCount() {
+        return list.size()==0?0:list.size();
+    }
 
+
+public static class ViewHolder extends RecyclerView.ViewHolder{
+        private TextView data;
+        private ImageView selected;
+
+    public ViewHolder(View itemView){
+        super(itemView);
+        data = (TextView)itemView.findViewById(R.id.tv_data);
+        selected = (ImageView) itemView.findViewById(R.id.iv_selected);
+    }
+}
+
+    public interface OnItemClickListener{
+        void onItemClick(View view,int position);
     }
 }

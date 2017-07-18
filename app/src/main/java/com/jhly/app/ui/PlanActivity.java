@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 import com.jhly.app.BaseActivity;
 import com.jhly.app.api.CheckData;
 import com.jhly.app.api.JsonCallback;
+import com.jhly.app.api.MyDividerItemDecoration;
 import com.jhly.app.api.Plan;
 import com.jhly.app.R;
 import com.jhly.app.api.RootUrl;
@@ -45,12 +48,12 @@ import me.rawn_hwang.library.widgit.SmartLoadingLayout;
 import okhttp3.MediaType;
 
 public class PlanActivity extends BaseActivity {
-    private ListView time;
+    private RecyclerView time;
     private EditText number;
     private EditText name;
     private EditText card;
     private Button submit;
-    private MyAdapter adapter;
+    private MyAdapter adapter = new MyAdapter();
     private DefaultLoadingLayout layout;
     private ArrayList<Plan> list = new ArrayList();
     private Handler handler;
@@ -63,7 +66,7 @@ public class PlanActivity extends BaseActivity {
     protected void initView() {
         view = getLayoutInflater().inflate(R.layout.activity_plan, null);
         setContentView(view);
-        time = findview(R.id.lv_time);
+        time = findview(R.id.rv_time);
         number = findview(R.id.et_number);
         name = findview(R.id.et_name);
         card = findview(R.id.et_card);
@@ -87,31 +90,34 @@ public class PlanActivity extends BaseActivity {
         //进行联网获取listview数据
         SharedPreferences last_cookie = getSharedPreferences("cookie", 0);
         cookie = last_cookie.getString("cookie", null);
-        Type type = new TypeToken<ArrayList<Plan>>() {
+        final Type type = new TypeToken<ArrayList<Plan>>() {
         }.getType();
         OkGo.<ArrayList<Plan>>get(RootUrl.url + "availablePlan")
                 .execute(new JsonCallback<ArrayList<Plan>>(type) {
                     @Override
                     public void onSuccess(com.lzy.okgo.model.Response<ArrayList<Plan>> response) {
                         list = response.body();
-                        adapter = new MyAdapter(list, getApplicationContext());
+                        adapter = new MyAdapter(list, PlanActivity.this);
+                        time.setLayoutManager(new LinearLayoutManager(PlanActivity.this));
+                        time.addItemDecoration(new MyDividerItemDecoration(PlanActivity.this,LinearLayoutManager.HORIZONTAL));
                         time.setAdapter(adapter);
                         layout.onDone();
+                        adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                int id = list.get(position).getId();
+                                SharedPreferences choose_id = getSharedPreferences("choose_id", MODE_PRIVATE);
+                                choose_id.edit().putInt("id", id).commit();
+                                showToast(String.valueOf(id));
+                            }
+                        });
                     }
                 });
     }
 
     @Override
     protected void initListener() {
-        time.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //onSelected = i+1;
-                int id = list.get(i).getId();
-                SharedPreferences choose_id = getSharedPreferences("choose_id", MODE_PRIVATE);
-                choose_id.edit().putInt("id", id).commit();
-            }
-        });
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

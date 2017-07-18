@@ -112,7 +112,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="有误"
-            android:background="#ffffff"/>
+            android:textColor="#e95390f2"
+            android:background="@drawable/btn"/>
 
         <Button
             android:id="@+id/bt_right"
@@ -120,6 +121,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="无误"
-            android:background="#ffffff"/>
+            android:textColor="#e95390f2"
+            android:background="@drawable/btn"/>
 </LinearLayout>
 </LinearLayout>

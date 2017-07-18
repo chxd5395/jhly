@@ -19,17 +19,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/edit_bg"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
                 android:hint="输入提单号查询"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:maxLines="1"/>
 
             <Button
                 android:id="@+id/bt_yes"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="提交"
+                android:layout_margin="8dp"
                 android:background="@drawable/btn"
-                android:textColor="#000000" />
+                android:textColor="#e95390f2" />
             </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_firstpage"

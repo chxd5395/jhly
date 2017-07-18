@@ -12,9 +12,6 @@ import android.widget.TextView;
 
 import com.jhly.app.R;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by r on 2017/7/18.
  */

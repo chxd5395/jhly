@@ -13,12 +13,16 @@
         android:id="@+id/bt_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#e95390f2"
+        android:background="@drawable/btn"
         android:text="显示"/>
 
     <Button
         android:id="@+id/bt_revoke"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#e95390f2"
+        android:background="@drawable/btn"
         android:text="撤销"/>
 
     <android.support.v7.widget.RecyclerView

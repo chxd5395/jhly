@@ -25,21 +25,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ListView
-            android:id="@+id/lv_time"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_time"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:divider="#000000"
-            android:dividerHeight="2dp"
-            android:listSelector="#6699FF">
-        </ListView>
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="12dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_bg"
+            android:maxLines="1"
             android:hint="输入手机号："/>
     </LinearLayout>
 
@@ -59,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="12dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -81,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="12dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,7 +106,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="#ffffff"
+            android:background="@drawable/btn"
+            android:textColor="#e95390f2"
             android:text="提交" />
     </RelativeLayout>
 
