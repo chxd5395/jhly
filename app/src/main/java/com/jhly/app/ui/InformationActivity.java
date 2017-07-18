@@ -40,12 +40,10 @@ public class InformationActivity extends BaseActivity implements View.OnClickLis
     private InformationUtil info;
     private DefaultLoadingLayout mLayout;
     private Gson gson;
-    private String cookie;
 
 
     @Override
     protected void initView() {
-       // requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_information,null);
         setContentView(view);
         variety = findview(R.id.tv_variety);
@@ -62,7 +60,6 @@ public class InformationActivity extends BaseActivity implements View.OnClickLis
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         final String code = bundle.getString("result");
-        Log.d("RE",code);
         mLayout.onLoading();
         OkGo.<String>get(RootUrl.url+"ladingbill/"+code)
                 .execute(new StringCallback() {
@@ -72,7 +69,6 @@ public class InformationActivity extends BaseActivity implements View.OnClickLis
                             final String re = response.body();
                             gson = new Gson();
                             info = gson.fromJson(re, InformationUtil.class);
-                            Log.d("re", re);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -83,16 +79,13 @@ public class InformationActivity extends BaseActivity implements View.OnClickLis
                                     mLayout.onDone();
                                 }
                             });
+                        } else if(response.code() == 302){
+                            showToast("已预约");
                         }else if(response.code()==404){
                             Log.e("0","未查到");
-                            //mLayout.onEmpty();
+                            mLayout.onEmpty();
                         }else if(response.code()==204) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mLayout.onEmpty();
-                                }
-                            });
+                            mLayout.onEmpty();
                         }
                     }
 
@@ -102,80 +95,6 @@ public class InformationActivity extends BaseActivity implements View.OnClickLis
                         mLayout.onError();
                     }
                 });
-//        OkHttpClient mOkHttpClient = new OkHttpClient();
-//        //创建一个Request
-//        final Request request = new Request.Builder()
-//                .get()
-//                .url(RootUrl.url+"ladingbill/"+code)
-//                .build();
-//        //new call
-//        Call call = mOkHttpClient.newCall(request);
-//        //请求加入调度
-//        call.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                runOnUiThread( new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mLayout.onError();
-//                    }
-//                });
-//                //
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                cookie = response.header("Set-Cookie");
-//                SharedPreferences preferences = getSharedPreferences("cookie", MODE_PRIVATE);
-//                SharedPreferences.Editor edit = preferences.edit();
-//                edit.putString("cookie",cookie);
-//                edit.commit();
-//                if(response.code()==200) {
-//                    final String re = response.body().string();
-//
-//                    gson = new Gson();
-//                    info = gson.fromJson(re, InformationUtil.class);
-//                    Log.d("re", re);
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            variety.setText(info.getScode());
-//                            license.setText(info.getVehicle());
-//                            weight.setText(info.getWeight());
-//                            company.setText(info.getAim());
-//                            mLayout.onDone();
-//                        }
-//                    });
-//                }else if(response.code()==404){
-//                    Log.e("0","未查到");
-//                    //mLayout.onEmpty();
-//                }else if(response.code()==204) {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            mLayout.onEmpty();
-//                        }
-//                    });
-//                }
-//                else
-//                {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            new AlertDialog.Builder(InformationActivity.this).setTitle("提示").setMessage("已预约").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                   InformationActivity.this.finish();
-//                                }
-//                            }).show();
-//                        }
-//                    });
-//                    Log.d("1","已预约");
-//                }
-//
-//
-//            }
-//        });
    }
 
     @Override

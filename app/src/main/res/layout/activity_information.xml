@@ -121,7 +121,5 @@
             android:layout_height="wrap_content"
             android:text="无误"
             android:background="#ffffff"/>
-
-
 </LinearLayout>
 </LinearLayout>

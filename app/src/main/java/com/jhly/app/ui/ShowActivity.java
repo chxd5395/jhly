@@ -63,7 +63,6 @@ public class ShowActivity extends BaseActivity implements View.OnClickListener {
                 showToast("已订");
             }
         });
-
     }
 
     @Override
@@ -76,15 +75,8 @@ public class ShowActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_show:
-                SharedPreferences sp = getSharedPreferences("cookie", 0);
+                SharedPreferences sp = getSharedPreferences("okgo_cookie", 0);
                 String cookie = sp.getString("cookie",null);
-                if(null == cookie)
-                    new AlertDialog.Builder(this).setTitle("提示").setMessage("请先扫码").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            System.exit(0);
-                        }
-                    }).show();
             OkGo.<String>get(RootUrl.url+"show")
                     .tag(this)
                     .headers("cookie",cookie)

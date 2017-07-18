@@ -5,10 +5,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -20,11 +23,14 @@ import android.widget.Toast;
 
 import com.jhly.app.BaseActivity;
 import com.jhly.app.R;
+import com.jhly.app.adapter.FirstPageRecycleViewAdapter;
+import com.jhly.app.api.MyDividerItemDecoration;
 import com.jhly.app.boardcast.NetBroadCast;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 
@@ -34,26 +40,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected long lastClickTime;//记录上次点击按钮时间
     protected final static int CLICK_TIME = 500;//按钮连续点击最短时间间隔
     protected Stack<Activity> stack = new Stack<>();//activity栈
-    private Button scan;//扫码
-    private Button mes;//个人信息
-    private Button show;
+    private RecyclerView recyclerView;
+//    private Button scan;//扫码
+//    private Button mes;//个人信息
+//    private Button show;
     private Button yes;
     private EditText scan_code;
     private NetBroadCast broadcast = new NetBroadCast();
+    private FirstPageRecycleViewAdapter adapter;
 
     @Override
     protected void initView() {
         setContentView(R.layout.activity_main);
-        scan = findview(R.id.ib_scan);
-        mes = findview(R.id.ib_message);
-        show = findview(R.id.ib_show);
         yes = findview(R.id.bt_yes);
         scan_code = findview(R.id.et_scan);
+        recyclerView = findview(R.id.rv_firstpage);
         getToolbar().inflateMenu(R.menu.menu_main);
         getToolbarTitle().setText("主界面");
         getSubTitle().setText("更多");
         getSubTitle().setVisibility(View.GONE);
-
     }
 
     @Override
@@ -76,14 +81,47 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         filter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
         filter.addAction("android.net.wifi.STATE_CHANGE");
         registerReceiver(broadcast,filter);
+        int[] bitmaps = {R.drawable.barcode_shortcut,R.drawable.yuyue,R.drawable.recode};
+        String[] stringList = {"提单扫码","我的预约","提单记录"};
+        adapter = new FirstPageRecycleViewAdapter(bitmaps, stringList, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new MyDividerItemDecoration(this,LinearLayoutManager.VERTICAL));
+        recyclerView.setAdapter(adapter);
+
     }
 
     @Override
     protected void initListener() {
-        scan.setOnClickListener(this);
-        mes.setOnClickListener(this);
-        show.setOnClickListener(this);
         yes.setOnClickListener(this);
+        adapter.setOnItemClickListener(new FirstPageRecycleViewAdapter.OnItemClickListener(){
+            @Override
+            public void onItemClick(View view, int position) {
+                switch (position){
+                    case 0:
+                        //6.0以上动态申请权限
+                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
+                                    != PackageManager.PERMISSION_GRANTED) {
+                                //申请WRITE_EXTERNAL_STORAGE权限
+                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA},
+                                        1);}else{
+                                Intent tent = new Intent(MainActivity.this,CaptureActivity.class);
+                                startActivityForResult(tent,REQEST_CODE);
+                            }
+                        }else {
+                            Intent tent = new Intent(MainActivity.this,CaptureActivity.class);
+                            startActivityForResult(tent,REQEST_CODE);
+                        }
+                        break;
+                    case 1:
+                        openActivity(PlanActivity.class);
+                        break;
+                    case 2:
+                        openActivity(ShowActivity.class);
+                        break;
+                }
+            }
+        });
         getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -109,30 +147,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            //点击开启扫码
-            case R.id.ib_scan:
-                //6.0以上动态申请权限
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    //申请WRITE_EXTERNAL_STORAGE权限
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
-                            1);}else{
-                    Intent tent = new Intent(MainActivity.this,CaptureActivity.class);
-                    startActivityForResult(tent,REQEST_CODE);
-                }
-                }else {
-                    Intent tent = new Intent(MainActivity.this,CaptureActivity.class);
-                    startActivityForResult(tent,REQEST_CODE);
-                }
-                break;
-            case R.id.ib_message:
-                //测试
-                openActivity(PlanActivity.class);
-                break;
-            case R.id.ib_show:
-                openActivity(ShowActivity.class);
-                break;
             case R.id.bt_yes:
                 if(!scan_code.getText().toString().isEmpty()){
                     Bundle bd = new Bundle();

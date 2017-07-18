@@ -21,6 +21,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -50,6 +51,7 @@
             android:id="@+id/et_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_bg"
             android:hint="输入手机号："/>
     </LinearLayout>
 
@@ -70,6 +72,7 @@
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_bg"
             android:hint="输入姓名："
             android:paddingLeft="10dp" />
     </LinearLayout>
@@ -92,6 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="输入车牌号："
+            android:background="@drawable/edit_bg"
             android:paddingLeft="10dp" />
     </LinearLayout>
 
