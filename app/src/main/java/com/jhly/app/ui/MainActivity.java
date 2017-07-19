@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         openActivity(PlanActivity.class);
                         break;
                     case 2:
-                        openActivity(ShowActivity.class);
+                        openActivity(ReserveActivity.class);
                         break;
                 }
             }

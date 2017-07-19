@@ -34,11 +34,12 @@
 
         <service
             android:name=".service.MyService"
-            android:process=":message"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:process=":message" />
 
-        <activity android:name=".ui.ShowActivity"></activity>
+        <activity android:name=".ui.ShowActivity" />
+        <activity android:name=".ui.ReserveActivity"></activity>
     </application>
 
 </manifest>

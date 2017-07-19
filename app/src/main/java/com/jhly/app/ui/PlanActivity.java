@@ -99,7 +99,7 @@ public class PlanActivity extends BaseActivity {
                         list = response.body();
                         adapter = new MyAdapter(list, PlanActivity.this);
                         time.setLayoutManager(new LinearLayoutManager(PlanActivity.this));
-                        time.addItemDecoration(new MyDividerItemDecoration(PlanActivity.this,LinearLayoutManager.HORIZONTAL));
+                        time.addItemDecoration(new MyDividerItemDecoration(PlanActivity.this,LinearLayoutManager.VERTICAL));
                         time.setAdapter(adapter);
                         layout.onDone();
                         adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
