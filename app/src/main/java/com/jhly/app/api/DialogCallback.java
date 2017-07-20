@@ -25,7 +25,7 @@ public abstract class DialogCallback extends JsonCallback {
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage("请求网络中...");
+        progressDialog.setMessage("请求撤销...");
     }
 
     @Override

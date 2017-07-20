@@ -12,8 +12,13 @@
         android:id="@+id/tl_rs" layout="@layout/toolbar_layout" />
 
     <com.jhly.app.view.MyTextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+        android:id="@+id/mtv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="我的车牌号"
+        android:textSize="60dp"
+        android:textColor="#ffffff"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"/>
 
@@ -21,48 +26,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="导航"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:paddingTop="20dp"
+        android:padding="15dp"
         android:background="@drawable/tv_bg"
         android:textColor="#4bdded27"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/tv_bg">
-    <android.support.v7.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="预订成功!"
-        android:padding="15dp"
-        android:visibility="visible"
-        android:textColor="#ffffff" />
+        android:background="@drawable/tv_bg"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
-        <ProgressBar
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"/>
+            android:padding="15dp"
+            android:textSize="18sp"
+            android:text="预订成功!"
+            android:textColor="#ffffff"
+            android:visibility="invisible" />
+
+        <ImageButton
+            android:id="@+id/ib_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/refresh"
+            android:layout_centerVertical="true"
+            android:background="@color/transparent"/>
 
 
-    </LinearLayout>
+    </RelativeLayout>
         <TextView
-            android:padding="12dp"
+            android:id="@+id/tv_info"
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:textSize="12sp"
+            android:textColor="#f7f5f5"
+            android:textSize="15sp"
             android:background="@drawable/tv_bg"
-            android:text="首先要清楚drawText不是以文字的左上角开始绘制,而是以baseLine为基线绘制,那么开"/>
+            android:gravity="center"
+            android:text="此处显示预约信息"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/bt_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:padding="20dp"
+            android:padding="15dp"
             android:textSize="20sp"
             android:textColor="#4bdded27"
             android:background="@drawable/tv_bg"

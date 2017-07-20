@@ -118,10 +118,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         }
                         break;
                     case 1:
-                        openActivity(PlanActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("code",0);
+                        openActivity(ReserveActivity.class,bundle);
                         break;
                     case 2:
-                        openActivity(ReserveActivity.class);
+                        openActivity(ShowActivity.class);
                         break;
                 }
             }

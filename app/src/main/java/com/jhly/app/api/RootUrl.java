@@ -5,5 +5,5 @@ package com.jhly.app.api;
  */
 
 public interface RootUrl {
-    String url = "http://192.168.1.111:8080/subscribe/";
+    String url = "http://192.168.1.107:8080/subscribe/";
 }

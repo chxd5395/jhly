@@ -41,23 +41,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         if(null == list) return;
-        holder.itemView.setSelected(selectedPosition == position);
-        holder.data.setText("id:"+list.get(position).getId()+"\t工厂:"+list.get(position).getSrc()+"\t开始时间:"+list.get(position).getBeginTime()+"\t->结束时间:"+list.get(position).getEndTime()+"\n总重量:"+list.get(position).getTotal()+"\t已使用:"+list.get(position).getUsed());
+        //holder.itemView.setSelected(selectedPosition == position);
         if(selectedPosition == position){
             holder.selected.setVisibility(View.VISIBLE);
         }else{
-            holder.selected.setVisibility(View.INVISIBLE);
+            holder.selected.setVisibility(View.GONE);
         }
+        holder.data.setText("id:"+list.get(position).getId()+"     工厂:"+list.get(position).getSrc()+"\n时间:"+list.get(position).getBeginTime()+"->"+list.get(position).getEndTime()+"\n总重量:"+list.get(position).getTotal()+"    剩余量:"+(list.get(position).getTotal()-list.get(position).getUsed()));
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(onItemClickListener != null){
-                    int pos = holder.getLayoutPosition();
+                    int pos = holder.getAdapterPosition();
                     onItemClickListener.onItemClick(holder.itemView,pos);
-                    selectedPosition = pos;
-                    notifyItemChanged(selectedPosition);
+                    selectedPosition = position;
+                    for(int i=0;i<list.size();i++){
+                    notifyItemChanged(i);}
                 }
             }
         });

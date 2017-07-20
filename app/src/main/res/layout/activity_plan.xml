@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -28,74 +29,51 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_time"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:padding="12dp">
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="手机号"
-            android:textSize="20sp"
-            />
-        <EditText
+        <com.jhly.app.view.MyEditText
             android:id="@+id/et_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:background="@drawable/edit_bg"
             android:maxLines="1"
-            android:hint="输入手机号："/>
-    </LinearLayout>
+            android:textColor="#ffffff"
+            android:hint="输入手机号"
+            app:fixed="true"
+            app:toolIcon="@drawable/phone"
+            app:hintIcon="@drawable/phone"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="姓名"
-            android:paddingLeft="10dp"
-            android:textSize="20sp"/>
 
-        <EditText
+        <com.jhly.app.view.MyEditText
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:background="@drawable/edit_bg"
-            android:hint="输入姓名："
-            android:paddingLeft="10dp" />
-    </LinearLayout>
+            android:maxLines="1"
+            android:textColor="#ffffff"
+            android:hint="输入姓名"
+            app:fixed="true"
+            app:toolIcon="@drawable/name"
+            app:hintIcon="@drawable/name"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="车牌号"
-            android:paddingLeft="10dp"
-            android:textSize="20sp"/>
-
-        <EditText
+        <com.jhly.app.view.MyEditText
             android:id="@+id/et_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="输入车牌号："
+            android:layout_margin="8dp"
             android:background="@drawable/edit_bg"
-            android:paddingLeft="10dp" />
-    </LinearLayout>
+            android:maxLines="1"
+            android:textColor="#ffffff"
+            android:hint="输入车牌号"
+            app:fixed="true"
+            app:toolIcon="@drawable/card"
+            app:hintIcon="@drawable/card"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

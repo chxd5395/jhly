@@ -3,6 +3,7 @@ package com.jhly.app.ui;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -30,6 +31,7 @@ import com.jhly.app.R;
 import com.jhly.app.api.RootUrl;
 import com.jhly.app.adapter.MyAdapter;
 import com.jhly.app.api.ScreenUtil;
+import com.jhly.app.api.SpacesItemDecoration;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
@@ -75,8 +77,8 @@ public class PlanActivity extends BaseActivity {
         getToolbarTitle().setText("计划");
         getSubTitle().setText("更多");
         int heightPixels = ScreenUtil.getScreenSize(this).heightPixels;
-        ViewGroup.LayoutParams layoutParams = lt.getLayoutParams();
-        layoutParams.height = heightPixels/3;
+//        ViewGroup.LayoutParams layoutParams = lt.getLayoutParams();
+//        layoutParams.height = heightPixels/3;
         layout = SmartLoadingLayout.createDefaultLayout(this, time);
         layout.onLoading();
         SharedPreferences info = getSharedPreferences("info", 0);
@@ -164,24 +166,9 @@ public class PlanActivity extends BaseActivity {
                         //此处判断获取数据成功与否
                         String result = response.body();
                         final int code = response.code();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                switch (code) {
-                                    case 302:
-                                        new AlertDialog.Builder(PlanActivity.this).setTitle("提示").setMessage("已预约").setPositiveButton("确定", null).show();
-                                        break;
-                                    case 200:
-                                        new AlertDialog.Builder(PlanActivity.this).setTitle("提示").setMessage("预约成功").setPositiveButton("确定", null).show();
-                                        break;
-                                    case 400:
-                                        new AlertDialog.Builder(PlanActivity.this).setTitle("提示").setMessage("预约失败").setPositiveButton("确定", null).show();
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        });
+                        final Bundle bundle = new Bundle();
+                        bundle.putInt("code",code);
+                        openActivity(ReserveActivity.class,bundle);
                     }
                 });
     }

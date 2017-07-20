@@ -80,15 +80,18 @@ public class InformationActivity extends BaseActivity implements View.OnClickLis
                                 }
                             });
                         } else if(response.code() == 302){
+                            mLayout.onEmpty();
                             showToast("已预约");
+                            Bundle bundle1 = new Bundle();
+                            bundle1.putInt("code",302);
+                            openActivity(ReserveActivity.class,bundle1);
                         }else if(response.code()==404){
                             Log.e("0","未查到");
-                            mLayout.onEmpty();
+                            mLayout.onError();
                         }else if(response.code()==204) {
                             mLayout.onEmpty();
                         }
                     }
-
                     @Override
                     public void onError(com.lzy.okgo.model.Response<String> response) {
                         super.onError(response);
