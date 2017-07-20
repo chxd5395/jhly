@@ -103,7 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 打印Toast
      */
     public void showToast(String msg){
-        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     /**

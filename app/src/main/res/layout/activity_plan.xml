@@ -24,7 +24,7 @@
     <LinearLayout
         android:id="@+id/lt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="200dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_time"
@@ -41,10 +41,11 @@
             android:layout_margin="8dp"
             android:background="@drawable/edit_bg"
             android:maxLines="1"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:hint="输入手机号"
             app:fixed="true"
-            app:toolIcon="@drawable/phone"
+            android:maxLength="11"
+            app:toolIcon="@drawable/x"
             app:hintIcon="@drawable/phone"/>
 
 
@@ -56,10 +57,10 @@
             android:layout_margin="8dp"
             android:background="@drawable/edit_bg"
             android:maxLines="1"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:hint="输入姓名"
             app:fixed="true"
-            app:toolIcon="@drawable/name"
+            app:toolIcon="@drawable/x"
             app:hintIcon="@drawable/name"/>
 
         <com.jhly.app.view.MyEditText
@@ -68,14 +69,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@drawable/edit_bg"
-            android:maxLines="1"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:hint="输入车牌号"
             app:fixed="true"
-            app:toolIcon="@drawable/card"
+            app:toolIcon="@drawable/x"
             app:hintIcon="@drawable/card"/>
 
     <RelativeLayout
+            android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
